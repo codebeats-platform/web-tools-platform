@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeBeats — Everyday Productivity & Utility Tools</title>
+    <!-- Tailwind CSS CDN for rapid, modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0f19',
+                        cardBg: '#131c31',
+                        neonPurple: '#8b5cf6',
+                        neonCyan: '#06b6d4',
+                        neonPink: '#ec4899',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+        }
+        .glow-effect {
+            box-shadow: 0 0 50px -10px rgba(139, 92, 246, 0.3);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -10px rgba(6, 182, 212, 0.15);
+            border-color: rgba(6, 182, 212, 0.4);
+        }
+        .glass-nav {
+            background: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-darkBg min-h-screen selection:bg-neonCyan selection:text-black overflow-x-hidden">
+
+    <!-- Background Glow Blobs -->
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] pointer-events-none animate-pulse-slow"></div>
+    <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-[120px] pointer-events-none animate-pulse-slow"></div>
+
+    <!-- Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-nav border-b border-gray-800/50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <img src="img/logo.png" alt="CodeBeats Logo" class="w-10 h-10 object-contain group-hover:scale-105 transition-transform duration-300">
+                <span class="text-2xl font-extrabold tracking-tight text-white">Code<span class="text-transparent bg-clip-text bg-gradient-to-r from-neonCyan to-neonPurple">Beats</span></span>
+            </a>
+
+            <!-- Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+                <a href="#features" class="hover:text-neonCyan transition-colors">Tools</a>
+                <a href="#ecosystem" class="hover:text-neonCyan transition-colors">Ecosystem</a>
+                <a href="#testimonials" class="hover:text-neonCyan transition-colors">Community</a>
+            </nav>
+
+            <!-- CTA Button -->
+            <div class="flex items-center gap-4">
+                <a href="#features" class="hidden sm:inline-flex px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-neonPurple to-neonCyan hover:opacity-90 transition-opacity shadow-lg shadow-purple-500/20">
+                    Explore Tools
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-36 pb-20 md:pt-48 md:pb-32 px-6">
+        <div class="max-w-5xl mx-auto text-center">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-900 border border-gray-800 text-xs font-semibold text-neonCyan mb-8 animate-float">
+                <span class="w-2 h-2 rounded-full bg-neonCyan animate-ping"></span>
+                The Ultimate Everyday Toolkit for Smart Creators
+            </div>
+            
+            <!-- Main Title -->
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-6">
+                Supercharge Your Daily Workflow with <span class="text-transparent bg-clip-text bg-gradient-to-r from-neonPurple via-neonCyan to-pink-500">CodeBeats</span>
+            </h1>
+            
+            <!-- Subtitle -->
+            <p class="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto font-normal mb-10">
+                A powerful suite of intelligent micro-tools designed to simplify your daily life, automate repetitive tasks, and boost your productivity instantly.
+            </p>
+
+            <!-- Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#features" class="w-full sm:w-auto px-8 py-4 rounded-xl text-base font-bold text-gray-900 bg-neonCyan hover:bg-cyan-400 transition-all shadow-xl shadow-cyan-500/20 flex items-center justify-center gap-3">
+                    <span>Get Started Free</span>
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                </a>
+                <a href="#ecosystem" class="w-full sm:w-auto px-8 py-4 rounded-xl text-base font-bold text-white bg-gray-900/80 border border-gray-800 hover:border-gray-700 transition-all flex items-center justify-center gap-3">
+                    <i class="fa-regular fa-circle-play text-neonPurple"></i>
+                    <span>Watch Overview</span>
+                </a>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-3xl mx-auto mt-20 pt-10 border-t border-gray-800/80 text-left">
+                <div>
+                    <h3 class="text-3xl font-extrabold text-white">50+</h3>
+                    <p class="text-sm text-gray-400 mt-1">Smart Daily Tools</p>
+                </div>
+                <div>
+                    <h3 class="text-3xl font-extrabold text-white">100k+</h3>
+                    <p class="text-sm text-gray-400 mt-1">Active Power Users</p>
+                </div>
+                <div class="col-span-2 md:col-span-1">
+                    <h3 class="text-3xl font-extrabold text-white">99.9%</h3>
+                    <p class="text-sm text-gray-400 mt-1">Lightning Fast</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid Section -->
+    <section id="features" class="py-24 px-6 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-xs font-bold tracking-widest uppercase text-neonPurple mb-3">CURATED UTILITIES</h2>
+                <h3 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Everything You Need, All in One Place</h3>
+                <p class="text-gray-400 mt-3">Engineered for speed, precision, and ease of use. Pick a tool and get things done in seconds.</p>
+            </div>
+
+            <!-- Grid Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Card 1 -->
+                <div class="bg-cardBg border border-gray-800/80 p-8 rounded-2xl card-hover transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-neonPurple text-2xl mb-6 group-hover:bg-neonPurple group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">Instant Converters</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Transform units, time zones, color codes, and file formats seamlessly without installing bloatware.</p>
+                    <span class="text-xs font-semibold text-neonCyan flex items-center gap-2 group-hover:translate-x-1 transition-transform">
+                        Launch Tool <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </span>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-cardBg border border-gray-800/80 p-8 rounded-2xl card-hover transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-neonCyan text-2xl mb-6 group-hover:bg-neonCyan group-hover:text-black transition-colors">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">Secure Passwords & Keys</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Generate ultra-secure cryptographic keys, hashes, and passwords on the fly with custom rules.</p>
+                    <span class="text-xs font-semibold text-neonCyan flex items-center gap-2 group-hover:translate-x-1 transition-transform">
+                        Launch Tool <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </span>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-cardBg border border-gray-800/80 p-8 rounded-2xl card-hover transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-neonPink text-2xl mb-6 group-hover:bg-neonPink group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-file-code"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">Code Formatters & Minifiers</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Clean, lint, beautify or minify JSON, HTML, CSS, and JavaScript with syntax validation instantly.</p>
+                    <span class="text-xs font-semibold text-neonCyan flex items-center gap-2 group-hover:translate-x-1 transition-transform">
+                        Launch Tool <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </span>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-cardBg border border-gray-800/80 p-8 rounded-2xl card-hover transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-2xl mb-6 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">Smart Calculators</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Advanced financial, mathematical, and date-difference calculators configured for daily logic.</p>
+                    <span class="text-xs font-semibold text-neonCyan flex items-center gap-2 group-hover:translate-x-1 transition-transform">
+                        Launch Tool <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </span>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="bg-cardBg border border-gray-800/80 p-8 rounded-2xl card-hover transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-2xl mb-6 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-image"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">Asset Optimizers</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Compress images, convert SVGs, and generate CSS gradients or box-shadow snippets effortlessly.</p>
+                    <span class="text-xs font-semibold text-neonCyan flex items-center gap-2 group-hover:translate-x-1 transition-transform">
+                        Launch Tool <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </span>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="bg-cardBg border border-gray-800/80 p-8 rounded-2xl card-hover transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-2xl mb-6 group-hover:bg-indigo-500 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">Text & Data Lab</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">RegEx testers, lorem ipsum generators, base64 encoders, and string manipulation tools.</p>
+                    <span class="text-xs font-semibold text-neonCyan flex items-center gap-2 group-hover:translate-x-1 transition-transform">
+                        Launch Tool <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800/80 py-12 px-6 text-center text-gray-500 text-sm">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <img src="img/logo.png" alt="CodeBeats Logo" class="w-7 h-7 object-contain">
+                <span class="font-bold text-white tracking-tight">CodeBeats</span>
+            </div>
+            <p>© 2026 CodeBeats. Engineered for peak performance.</p>
+            <div class="flex gap-4 text-gray-400">
+                <a href="#" class="hover:text-neonCyan transition-colors"><i class="fa-brands fa-github text-lg"></i></a>
+                <a href="#" class="hover:text-neonCyan transition-colors"><i class="fa-brands fa-twitter text-lg"></i></a>
+                <a href="#" class="hover:text-neonCyan transition-colors"><i class="fa-brands fa-discord text-lg"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
