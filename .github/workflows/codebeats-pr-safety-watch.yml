@@ -1,0 +1,75 @@
+name: CodeBeats PR Safety Watch
+
+on:
+  schedule:
+    # Four runs per hour, away from the top-of-hour peak (UTC).
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:
+
+# Monitoring only: intentionally no write, approve, merge, or deploy privileges.
+permissions:
+  contents: read
+  pull-requests: read
+  checks: read
+
+concurrency:
+  group: codebeats-pr-safety-watch
+  cancel-in-progress: true
+
+jobs:
+  inspect:
+    name: Inspect open PRs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Classify pull requests without modifying them
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const prs = await github.paginate(github.rest.pulls.list, {
+              owner, repo, state: 'open', base: 'main', per_page: 100
+            });
+            const lines = [
+              '# CodeBeats: 15-minute PR safety review',
+              '',
+              `Open pull requests targeting main: ${prs.length}`,
+              '',
+              '> This workflow is read-only. It does not approve, merge, deploy, or change permissions.',
+              ''
+            ];
+
+            for (const pr of prs) {
+              const files = await github.paginate(github.rest.pulls.listFiles, {
+                owner, repo, pull_number: pr.number, per_page: 100
+              });
+              const docsOnly = files.length > 0 && files.every(file =>
+                (file.status === 'added' || file.status === 'modified') &&
+                (file.filename === 'README.md' || /^docs\/[A-Za-z0-9_./-]+\.md$/.test(file.filename))
+              );
+              const response = await github.rest.checks.listForRef({
+                owner, repo, ref: pr.head.sha, per_page: 100
+              });
+              const checks = response.data.check_runs;
+              const required = ['Client lint and build', 'Server HTTP smoke test'];
+              const ciPassed = required.every(name => checks.some(run =>
+                run.name === name &&
+                run.app?.slug === 'github-actions' &&
+                run.head_sha === pr.head.sha &&
+                run.conclusion === 'success'
+              ));
+
+              const status = pr.draft ? 'Manual review (draft)'
+                : (docsOnly && ciPassed ? 'Low-risk candidate; approval still required'
+                  : 'Manual review required');
+              lines.push(`## PR #${pr.number}: ${pr.title.replace(/[\r\n]/g, ' ')}`);
+              lines.push(`- Link: ${pr.html_url}`);
+              lines.push(`- Current head: \`${pr.head.sha}\``);
+              lines.push(`- Changes: ${files.length} files`);
+              lines.push(`- Client/server CI: ${ciPassed ? 'Passed' : 'Missing, pending, or failing'}`);
+              lines.push(`- Classification: **${status}**`);
+              if (!docsOnly) lines.push('- Reason: contains files outside the narrow documentation allowlist');
+              lines.push('');
+            }
+            await core.summary.addRaw(lines.join('\n')).write();
+            core.info(lines.join('\n'));
