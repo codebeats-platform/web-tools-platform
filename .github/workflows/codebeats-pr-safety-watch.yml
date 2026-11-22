@@ -3,7 +3,7 @@ name: CodeBeats PR Safety Watch
 on:
   schedule:
     # Four runs per hour, away from the top-of-hour peak (UTC).
-    - cron: '7,22,37,52 * * * *'
+  - cron: '11,26,41,56 * * * *'
   workflow_dispatch:
 
 # Monitoring only: intentionally no write, approve, merge, or deploy privileges.
