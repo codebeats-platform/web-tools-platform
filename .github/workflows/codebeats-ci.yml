@@ -1,0 +1,76 @@
+name: CodeBeats Safety Baseline
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - 'automation/**'
+  workflow_dispatch:
+
+# No write access to repository, Pull Requests, or deployments.
+permissions:
+  contents: read
+
+concurrency:
+  group: codebeats-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  client:
+    name: Client lint and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+      - name: Install client dependencies
+        working-directory: client
+        run: npm ci
+      - name: Lint client
+        working-directory: client
+        run: npm run lint
+      - name: Build client
+        working-directory: client
+        run: npm run build
+
+  server:
+    name: Server HTTP smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - name: Install server dependencies
+        working-directory: server
+        run: npm ci
+      - name: Validate /api/status locally
+        working-directory: server
+        shell: bash
+        run: |
+          set -euo pipefail
+          node server.js &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          ready=0
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --max-time 2 http://127.0.0.1:5000/api/status -o /tmp/codebeats-status.json; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          if [ "$ready" -ne 1 ]; then
+            echo 'The server did not respond on /api/status'
+            exit 1
+          fi
+          node -e 'const fs = require("node:fs"); const response = JSON.parse(fs.readFileSync("/tmp/codebeats-status.json", "utf8")); if (response.ok !== true) process.exit(1);'
