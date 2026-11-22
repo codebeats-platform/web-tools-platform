@@ -1,0 +1,22 @@
+
+name: CodeBeats Schedule Diagnostic
+
+on:
+  schedule:
+    - cron: '9,24,39,54 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Record scheduled execution
+        run: |
+          echo "UTC time: $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          echo "Event: ${{ github.event_name }}"
+          echo "Schedule: ${{ github.event.schedule }}"
+  
